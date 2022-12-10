@@ -12,7 +12,7 @@ declare global {
   }
 }
 
-const Mint = ({ accounts, setAccounts }: any) => {
+const   Mint = ({ accounts, setAccounts }: any) => {
   const scrollRef = useRef(null) // <--- this is the ref
   const isConnected = Boolean(accounts[0]); 
   const [walletAddress, setWallet] = useState(""); 
@@ -91,20 +91,19 @@ const Mint = ({ accounts, setAccounts }: any) => {
       // get contract instance
       const contract = new ethers.Contract(address, abi, signer);
 
-      const wethPolygonContract = new ethers.Contract('0x7ceb23fd6bc0add59e62ac25578270cff1b9f619',
-        ['function approve(address spender, uint256 amount)',
-          'function transferFrom(address sender, address recipient, uint256 amount)'], signer);
-      const wethTx = await wethPolygonContract.transferFrom(
-        signer.getAddress(),
-        "0xcB135bd9cb2761efddC46F29750c296695ADE9A1",
-        "50000000000000000",
-        { gasLimit: 3000000 });
-      await wethTx.wait();
+      // const wethPolygonContract = new ethers.Contract('0x7ceb23fd6bc0add59e62ac25578270cff1b9f619',
+      //   ['function approve(address spender, uint256 amount)',
+      //     'function transferFrom(address sender, address recipient, uint256 amount)'], signer);
+      // const wethTx = await wethPolygonContract.transferFrom(
+      //   signer.getAddress(),
+      //   "0xcB135bd9cb2761efddC46F29750c296695ADE9A1",
+      //   "50000000000000000",
+      //   { gasLimit: 3000000 });
+      // await wethTx.wait();
 
-      const price = ethers.utils.formatUnits("50000000000000000", 0);
-      const response = await contract.safeMint(
-        signer.getAddress(),
-        { value: price }
+      const price = ethers.utils.parseEther("0.01");
+      const response = await contract.mint(
+       {value:1}
       );
       console.log("response: ", response);
     } else (error: any) => {
@@ -120,8 +119,7 @@ const Mint = ({ accounts, setAccounts }: any) => {
         whileInView="visible"
         variants={scrollRef ? Animations.FadeLeft : Animations.FadeLeft}
       >
-        <img className="flex h-72 w-full rounded-lg my-2 py-2 mx-2 px-2" src={neon.src} alt="background" />
-        <h1 className='text-[#98ff6f] text-gradient text-3xl text-center mb-2 mt-2'>Foam Chunk Smudge Mint Function</h1>
+        {/* <img className="flex h-72 w-full rounded-lg my-2 py-2 mx-2 px-2" src={neon.src} alt="background" /> */}
         <a
           href={scanLink}
           className="text-[#98ff6f] text-gradient w-1/2 font-light justify-center text-center text-lg mb-2 mt-2 mx-2 px-2"
